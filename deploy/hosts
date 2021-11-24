@@ -1,0 +1,5 @@
+[picogalaxy]
+picogalaxy.net
+
+[picogalaxy:vars]
+ansible_python_interpreter=/usr/bin/python

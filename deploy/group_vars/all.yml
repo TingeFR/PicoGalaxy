@@ -1,0 +1,11 @@
+---
+project_name: "picogalaxy"
+host_name: "picogalaxy.net"
+frontend_name: "picogalaxy-frontend"
+api_name: "picogalaxy-api"
+build_image: "picogalaxy-api"
+build_version: "{{ lookup('env','BUILD_VERSION') }}"
+gitlab_token: "{{ lookup('env','GITLAB_TOKEN') }}"
+aws_access_key_id: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+aws_secret_access_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+aws_region: eu-west-3

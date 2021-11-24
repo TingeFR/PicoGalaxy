@@ -1,0 +1,2 @@
+- name: Welcome Message
+  debug: msg={{ message.split('\n') }}

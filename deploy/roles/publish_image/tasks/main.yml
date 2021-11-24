@@ -1,0 +1,24 @@
+---
+- name: Ensure that archive exists
+  stat:
+    path: "{{ build_image }}-{{ build_version }}.tar"
+  register: stat_result
+
+- name: Upload archive
+  amazon.aws.aws_s3:
+    bucket: picogalaxy
+    object: "picogalaxy-api-releases/{{ build_image }}-{{ build_version }}.tar"
+    permission: public-read
+    src: "{{ build_image }}-{{ build_version }}.tar"
+    mode: put
+  when: stat_result.stat.exists
+
+- name: Link archive on GitLab
+  shell: |
+    curl --request POST \
+    --header "PRIVATE-TOKEN: {{ gitlab_token }}" \
+    --data name="{{ build_image }}-{{ build_version }}.tar" \
+    --data url="https://picogalaxy.s3.eu-west-3.amazonaws.com/picogalaxy-api-releases/{{ build_image }}-{{ build_version }}.tar" \
+    --data link_type="image" \
+    "https://gitlab.com/api/v4/projects/27487148/releases/{{ build_version }}/assets/links"
+  when: stat_result.stat.exists

@@ -1,0 +1,15 @@
+---
+- name: Build image
+  community.docker.docker_image:
+    build:
+      path: ..
+    name: "{{ build_image }}"
+    tag: "{{ build_version }}"
+    source: build
+
+- name: Archive image
+  community.docker.docker_image:
+    name: "{{ build_image }}"
+    tag: "{{ build_version }}"
+    archive_path: "{{ build_image }}-{{ build_version }}.tar"
+    source: local

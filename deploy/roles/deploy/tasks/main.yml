@@ -1,0 +1,47 @@
+---
+- name: Add centos user to Docker group
+  ansible.builtin.user:
+    name: centos
+    groups: docker
+    append: yes
+  become: yes
+
+- name: Copy docker-compose template
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /home/centos/docker-compose.yml
+    owner: centos
+    group: centos
+    mode: '0644'
+
+- name: Copy NGINX conf template
+  ansible.builtin.template:
+    src: default.conf.j2
+    dest: /home/centos/default.conf
+    owner: centos
+    group: centos
+    mode: '0600'
+
+- name: Create acme.json
+  file:
+    path: /home/centos/acme.json
+    state: touch
+    owner: centos
+    group: centos
+    mode: '0600'
+
+- name: Download image
+  ansible.builtin.copy:
+    src: "{{ build_image }}-{{ build_version }}.tar"
+    dest: "/home/centos/{{ build_image }}-{{ build_version }}.tar"
+
+- name: Load image
+  community.docker.docker_image:
+    name: "{{ build_image }}"
+    tag: "{{ build_version }}"
+    load_path: "/home/centos/{{ build_image }}-{{ build_version }}.tar"
+    source: load
+
+- name: Create and start services
+  community.docker.docker_compose:
+    project_src: /home/centos

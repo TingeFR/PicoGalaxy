@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  vars:
+    message: |
+      #########################################################
+      #                 P I C O G A L A X Y                   #
+      #########################################################
+  roles:
+    - common
+
+- hosts: localhost
+  roles:
+    - build_image
+    - publish_image
+
+- hosts: all
+  remote_user: centos
+  become: yes
+  become_method: sudo
+  roles:
+    - geerlingguy.docker
+
+- hosts: all
+  remote_user: centos
+  roles:
+    - deploy

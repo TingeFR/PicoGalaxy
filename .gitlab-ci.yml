@@ -1,0 +1,35 @@
+image: docker:20.10.9-alpine3.14
+
+services:
+  - docker:20.10.9-dind
+
+before_script:
+  - apk update && apk add --no-cache musl-dev libffi-dev openssl-dev make gcc curl python3 py3-pip py3-virtualenv python3-dev
+  - python3 -m venv ansible
+  - source ./ansible/bin/activate
+  - pip install --upgrade pip
+  - pip install docker
+  - pip install boto3
+  - pip install ansible
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - cp $SSH_CONFIG ~/.ssh/config
+  - chmod 600 ~/.ssh/config
+  - cp $SSH_PRIVATE_KEY ~/.ssh/default.pem
+  - chmod 600 ~/.ssh/default.pem
+  - ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  
+picogalaxy:
+  stage: deploy
+  only:
+    - tags
+  except:
+    - branches
+  script:
+    - export BUILD_VERSION=$CI_COMMIT_REF_NAME
+    - export ANSIBLE_FORCE_COLOR=true
+    - source ./ansible/bin/activate
+    - cd deploy
+    - ansible-galaxy install -r requirements.yml
+    - ansible-playbook -i hosts playbook.yml
