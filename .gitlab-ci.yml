@@ -22,9 +22,6 @@ picogalaxy:
   script:
     - export BUILD_VERSION=$CI_COMMIT_REF_NAME
     - export ANSIBLE_FORCE_COLOR=true
-    - export DOCKER_CLIENT_TIMEOUT=300
-    - export COMPOSE_HTTP_TIMEOUT=300
-    - source ./ansible/bin/activate
     - cd deploy
     - ansible-galaxy install -r requirements.yml
     - ansible-playbook -i hosts playbook.yml
