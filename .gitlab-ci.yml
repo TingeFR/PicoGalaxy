@@ -1,4 +1,4 @@
-image: docker:20.10.9-alpine3.14
+image: tingefr/picobuild:0.0.1
 
 services:
   - docker:20.10.9-dind
