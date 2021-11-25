@@ -1,16 +1,9 @@
-image: tingefr/picobuild:0.0.1
+image: tingefr/picobuild:0.1.0
 
 services:
   - docker:20.10.9-dind
 
 before_script:
-  - apk update && apk add --no-cache musl-dev libffi-dev openssl-dev make gcc curl python3 py3-pip py3-virtualenv python3-dev
-  - python3 -m venv ansible
-  - source ./ansible/bin/activate
-  - pip install --upgrade pip
-  - pip install docker
-  - pip install boto3
-  - pip install ansible
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - cp $SSH_CONFIG ~/.ssh/config
