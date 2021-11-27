@@ -1,10 +1,10 @@
-image: docker:20.10.9-alpine3.14
+image: tingefr/picobuild:0.8.0
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
 
 services:
-  - docker:20.10.9-dind
+  - docker:20.10.11-dind
 
 before_script:
   - docker info
