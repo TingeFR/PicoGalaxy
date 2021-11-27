@@ -1,4 +1,4 @@
-image: tingefr/picobuild:0.6.0
+image: docker:20.10.9-alpine3.14
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
