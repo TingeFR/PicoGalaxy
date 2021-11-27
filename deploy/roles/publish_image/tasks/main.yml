@@ -20,5 +20,5 @@
     --data name="{{ build_image }}-{{ build_version }}.tar" \
     --data url="https://picogalaxy.s3.eu-west-3.amazonaws.com/picogalaxy-api-releases/{{ build_image }}-{{ build_version }}.tar" \
     --data link_type="image" \
-    "https://gitlab.com/api/v4/projects/27487148/releases/{{ build_version }}/assets/links"
+    "https://gitlab.com/api/v4/projects/31583607/releases/{{ build_version }}/assets/links"
   when: stat_result.stat.exists
