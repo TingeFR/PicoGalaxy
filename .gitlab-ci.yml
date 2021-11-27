@@ -1,4 +1,4 @@
-image: tingefr/picobuild:0.3.0
+image: tingefr/picobuild:0.6.0
 
 services:
   - docker:20.10.9-dind
