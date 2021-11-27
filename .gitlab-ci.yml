@@ -7,6 +7,7 @@ services:
   - docker:20.10.9-dind
 
 before_script:
+  - docker info
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
   - cp $SSH_CONFIG ~/.ssh/config
