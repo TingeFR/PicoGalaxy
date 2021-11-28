@@ -11,7 +11,7 @@ import { User } from './entity/user.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
-@Controller('api/users')
+@Controller('users')
 export class UsersController {
 
   private readonly logger: Logger;

@@ -4,7 +4,7 @@ import { ApiTags, ApiOperation, ApiOkResponse, ApiQuery } from '@nestjs/swagger'
 import { UsersService } from 'src/users/users.service';
 
 @ApiTags('auth')
-@Controller('api/auth')
+@Controller('auth')
 export class AuthController {
   constructor(private readonly jwtService: JwtService, private readonly usersService: UsersService) {}
 
