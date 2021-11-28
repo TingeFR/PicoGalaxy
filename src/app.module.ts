@@ -8,7 +8,15 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
-        Object.assign(await getConnectionOptions(), {
+        Object.assign({
+          type: "postgres",
+          host: process.env.NODE_ENV === 'production' ? "postgres" : "localhost",
+          port: 5432,
+          username: "postgres",
+          password: "12345",
+          database: "picogalaxy",
+          entities: ["dist/**/*.entity{.ts,.js}"],
+          synchronize: true,
           autoLoadEntities: true,
         }),
     }),
