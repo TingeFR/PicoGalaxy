@@ -1,25 +1,33 @@
-import { BadRequestException, Controller, Get, Logger, Query } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Logger, Post, Query, Req, ValidationPipe } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ApiTags, ApiOperation, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { UsersService } from 'src/users/users.service';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly jwtService: JwtService, private readonly usersService: UsersService) {}
 
-  @Get('login')
+  @Post('login')
   @ApiOperation({ summary: 'User login' })
   @ApiOkResponse({ description: 'Create a token' })
-  @ApiQuery({ name: 'password', type: String })
-  @ApiQuery({ name: 'email', type: String })
   async login(
-    @Query() q
+    @Req() r,
+    @Body(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true
+      }),
+    )
+    login: LoginDto,
   ) {
-    const succeed = await this.usersService.loginSucceed(q.email, q.password)
+
+    const succeed = await this.usersService.loginSucceed(login.email, login.password)
+
     if (succeed) {
       Logger.log("Login succeeded!");
-      const token = this.jwtService.sign({email: q.email})
+      const token = this.jwtService.sign({email: login.email});
       return { token }
     } else {
       Logger.warn('Login failed');
