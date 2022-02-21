@@ -24,7 +24,7 @@ export class UsersController {
     this.logger = new Logger(UsersController.name);
   }
 
-  // GET /users
+  //GET /users
   @Get()
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
@@ -41,7 +41,7 @@ export class UsersController {
     return { users }
   }
 
-  // GET /users/{id}
+  //GET /users/id/{id}
   @Get('/id/:id')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
@@ -69,7 +69,7 @@ export class UsersController {
     throw new NotFoundException('User not found');
   }
 
-  // GET /users/{email}
+  //GET /users/email/{email}
   @Get('/email/:email')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
@@ -97,7 +97,7 @@ export class UsersController {
     throw new NotFoundException('User not found');
   }
 
-  // POST /users
+  //POST /users
   @Post()
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
@@ -117,7 +117,7 @@ export class UsersController {
     return this.usersService.create(r.user, newUser)
   }
 
-  // PUT /users/{id}
+  //PUT /users/{id}
   @Put('/:id')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
@@ -145,7 +145,7 @@ export class UsersController {
     return this.usersService.update(r.user, updatedUser);
   }
 
-  // DELETE /users/{id}
+  //DELETE /users/{id}
   @Delete(':id')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()

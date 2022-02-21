@@ -1,16 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsNumber } from "class-validator";
 
-export class CreateMealDto {
+export class CreateIngredientDto {
+  @ApiProperty()
+  @IsNumber()
+  mealId: number;
+
   @ApiProperty()
   @IsNotEmpty()
   name: string;
 
   @ApiProperty()
   @IsNumber()
-  preparationMinutes: number;
+  quantity: number;
 
   @ApiProperty()
-  @IsNumber()
-  cookingMinutes: number;
+  @IsNotEmpty()
+  unit: string;
 }
