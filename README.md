@@ -2,7 +2,7 @@
 
 - Install dependencies
 ```
-npm install
+yarn
 ```
 
 - Start in development mode / watch file mode
@@ -19,8 +19,6 @@ npm run start
 ```
 npm run start:prod
 ```
-
-- To connect a database in dev mode, replace 'host' field in ```/ormconfig.json``` but DON'T COMMIT IT
 
 ## Deployment
 - [PREREQUISITES] Host : CentOS 7 / Python 2.7 / pip 20.3.4 / Docker Compose for Python (Docker SDK 4.4.4)

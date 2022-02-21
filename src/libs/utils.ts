@@ -1,5 +1,3 @@
 const util = require('util');
 
-export function inspectorMode(obj: any){
-  console.log(util.inspect(obj, false, null, true));
-}
+export const objectInspect = (obj: any) => console.log(util.inspect(obj, {showHidden: false, depth: null, colors: true}))

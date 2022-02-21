@@ -4,7 +4,6 @@ import { Meal } from '../entity/meal.entity';
 import { User, UserGroup } from 'src/users/entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { inspectorMode } from 'src/libs/utils';
 
 @Injectable()
 export class MealUpdater {
@@ -16,7 +15,6 @@ export class MealUpdater {
   async map(reqUser: User, id: string, updateMealDto: UpdateMealDto): Promise<Meal> {
 
     const meal = await this.mealsRepository.findOne(id);
-    inspectorMode(meal)
 
     if(!meal)
     {
