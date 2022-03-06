@@ -8,8 +8,11 @@ export class MealMapper {
   async map(reqUser: User, createMealDto: CreateMealDto): Promise<Meal> {
     const {
       name,
+      seasonMonths,
       preparationMinutes,
       cookingMinutes,
+      kennyLoves,
+      quentinLoves
     } = createMealDto;
 
     if(!reqUser || reqUser.group == UserGroup.USER){
@@ -19,8 +22,11 @@ export class MealMapper {
     return {
       id: null,
       name: name,
+      seasonMonths: seasonMonths,
       preparationMinutes: preparationMinutes,
       cookingMinutes: cookingMinutes,
+      kennyLoves: kennyLoves,
+      quentinLoves: quentinLoves,
       ingredients: [],
       steps: [],
     };

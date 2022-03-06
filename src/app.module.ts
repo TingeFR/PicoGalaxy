@@ -4,6 +4,7 @@ import { Connection, getConnectionOptions } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MealsModule } from './meals/meals.module';
+import { MenusModule } from './menus/menus.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MealsModule } from './meals/meals.module';
     }),
     UsersModule,
     MealsModule,
+    MenusModule,
     AuthModule,
   ],
 })
