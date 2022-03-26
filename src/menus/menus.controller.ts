@@ -25,7 +25,7 @@ export class MenusController {
     @Query() q
   ): Promise<string> {
     const phrase = await this.menusService.generate(r.user);
-    return "Miam ! Miam ! Miam ! Tout a été envoyé par mail mes petits poulets !"
+    return "Miam ! Miam ! Miam ! Tout a été envoyé !"
   }
 
 }
