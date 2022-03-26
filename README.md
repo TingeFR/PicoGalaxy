@@ -25,4 +25,5 @@ npm run start:prod
 - Ensure that the following CI/CD variables are set: `SSH_HOST`, `SSH_CONFIG`, `SSH_PRIVATE_KEY`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `GITLAB_TOKEN`.
 - Ensure that changes are pushed to the `main` branch
 - Create a tag with release notes corresponding to the desired version
+- Ensure that the tag is protected
 - The build is launched automatically. Estimated time: approximately 5 min
