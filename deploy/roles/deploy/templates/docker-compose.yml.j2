@@ -26,9 +26,9 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./acme.json:/etc/traefik/acme/acme.json"
     environment:
-      - 'AWS_ACCESS_KEY_ID={{ aws_access_key_id }}'
-      - 'AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}'
-      - 'AWS_REGION={{ aws_region }}'
+      - AWS_ACCESS_KEY_ID={{ aws_access_key_id }}
+      - AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}
+      - AWS_REGION={{ aws_region }}
 
   frontend:
     image: nginx
@@ -48,6 +48,11 @@ services:
     image: "{{ build_image }}:{{ build_version }}"
     container_name: "{{ api_name }}"
     restart: always
+    environment:
+      - AWS_ACCESS_KEY_ID={{ aws_access_key_id }}
+      - AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}
+      - AWS_REGION={{ aws_region }}
+      - NOTION_TOKEN={{ notion_token }}
     labels:
       - "traefik.enable=false"
 
