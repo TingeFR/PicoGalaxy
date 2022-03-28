@@ -21,7 +21,6 @@ export class Ingredient {
   unit: string;
 
   @ApiProperty({ type: () => Meal })
-  @ManyToOne(() => Meal, meal => meal.ingredients, { onDelete: "CASCADE" })
+  @ManyToOne(() => Meal, (meal) => meal.ingredients, { onDelete: 'CASCADE' })
   meal: Meal;
-
 }

@@ -9,23 +9,25 @@ import { Repository } from 'typeorm';
 export class IngredientUpdater {
   constructor(
     @InjectRepository(Ingredient)
-    private ingredientsRepository: Repository<Ingredient>
+    private ingredientsRepository: Repository<Ingredient>,
   ) {}
 
-  async map(reqUser: User, id: string, updateIngredientDto: UpdateIngredientDto): Promise<Ingredient> {
-
-    if(!reqUser || reqUser.group == UserGroup.USER){
+  async map(
+    reqUser: User,
+    id: string,
+    updateIngredientDto: UpdateIngredientDto,
+  ): Promise<Ingredient> {
+    if (!reqUser || reqUser.group == UserGroup.USER) {
       return;
     }
 
     const ingredient = await this.ingredientsRepository.findOne(id);
 
-    if(!ingredient)
-    {
+    if (!ingredient) {
       throw new NotFoundException('Ingredient not found');
     }
 
-    Object.keys(updateIngredientDto).forEach(element => {
+    Object.keys(updateIngredientDto).forEach((element) => {
       ingredient[element] = updateIngredientDto[element];
     });
 

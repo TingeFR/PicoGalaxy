@@ -1,5 +1,4 @@
-import { objectInspect, timer } from "./utils";
-
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { Client } = require('@notionhq/client');
 
 export const updateNotionToDos = async (courses: string[]) => {
@@ -9,7 +8,7 @@ export const updateNotionToDos = async (courses: string[]) => {
     block_id: blockId,
     page_size: 100,
   });
-  
+
   for (const child of childrenToClean.results) {
     const response = await notion.blocks.delete({
       block_id: child.id,
@@ -34,27 +33,27 @@ export const updateNotionToDos = async (courses: string[]) => {
                   strikethrough: false,
                   underline: false,
                   code: false,
-                  color: 'default'
-                }
-              }
+                  color: 'default',
+                },
+              },
             ],
-          }
-        }
+          },
+        },
       ],
     });
   }
-}
+};
 
 export const updateNotionRows = async (recettes: string[]) => {
   const rows = [
-    {day: 'Lundi', id: 'e03b297a-e157-451c-a738-d83493851a0b'},
-    {day: 'Mardi', id: '78c1f8ee-8971-4876-b14a-774c30798c7b'},
-    {day: 'Mercredi', id: 'b24a97ba-8fa7-4d29-ad7d-aae067b3b480'},
-    {day: 'Jeudi', id: '563cd6cb-7a0a-49c3-bc21-29a3831154d9'},
-    {day: 'Vendredi', id: '6f77884f-fc05-4728-9f48-a4217c45b4d6'},
-    {day: 'Samedi', id: '5d8b1f4a-a289-4e0c-a855-ca19247e8f5a'},
-    {day: 'Dimanche', id: '53daa9a1-d7a7-4e06-8b1a-58d800fe47b8'},
-  ]
+    { day: 'Lundi', id: 'e03b297a-e157-451c-a738-d83493851a0b' },
+    { day: 'Mardi', id: '78c1f8ee-8971-4876-b14a-774c30798c7b' },
+    { day: 'Mercredi', id: 'b24a97ba-8fa7-4d29-ad7d-aae067b3b480' },
+    { day: 'Jeudi', id: '563cd6cb-7a0a-49c3-bc21-29a3831154d9' },
+    { day: 'Vendredi', id: '6f77884f-fc05-4728-9f48-a4217c45b4d6' },
+    { day: 'Samedi', id: '5d8b1f4a-a289-4e0c-a855-ca19247e8f5a' },
+    { day: 'Dimanche', id: '53daa9a1-d7a7-4e06-8b1a-58d800fe47b8' },
+  ];
 
   const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
@@ -76,11 +75,11 @@ export const updateNotionRows = async (recettes: string[]) => {
                 strikethrough: false,
                 underline: false,
                 code: false,
-                color: 'default'
+                color: 'default',
               },
               plain_text: day,
-              href: null
-            }
+              href: null,
+            },
           ],
           [
             {
@@ -92,22 +91,22 @@ export const updateNotionRows = async (recettes: string[]) => {
                 strikethrough: false,
                 underline: false,
                 code: false,
-                color: 'default'
+                color: 'default',
               },
               plain_text: recette,
-              href: null
-            }
-          ]
-        ]
-      }
+              href: null,
+            },
+          ],
+        ],
+      },
     });
     index++;
   }
-}
+};
 
 export const updateNotionDate = async (timestamp: Date) => {
-  timestamp.setHours(timestamp.getHours()+1)
-  const dateString = timestamp.toISOString().split('Z')[0]+'+01:00'
+  timestamp.setHours(timestamp.getHours() + 1);
+  const dateString = timestamp.toISOString().split('Z')[0] + '+01:00';
   const notion = new Client({ auth: process.env.NOTION_TOKEN });
   const blockId = '07111f78f940480ebd5d452eff0dd719';
   const response = await notion.blocks.update({
@@ -123,10 +122,10 @@ export const updateNotionDate = async (timestamp: Date) => {
             strikethrough: false,
             underline: false,
             code: false,
-            color: 'default'
+            color: 'default',
           },
           plain_text: 'Dernier menu ',
-          href: null
+          href: null,
         },
         {
           type: 'mention',
@@ -135,11 +134,11 @@ export const updateNotionDate = async (timestamp: Date) => {
             date: {
               start: dateString,
               end: null,
-              time_zone: null
-            }
-          }
-        }
+              time_zone: null,
+            },
+          },
+        },
       ],
-    }
+    },
   });
-}
+};

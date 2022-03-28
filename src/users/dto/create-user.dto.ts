@@ -1,6 +1,6 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from "class-validator";
-import { UserGroup } from "../entity/user.entity";
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
+import { UserGroup } from '../entity/user.entity';
 
 export class CreateUserDto {
   @ApiPropertyOptional({ enum: UserGroup, enumName: 'UserGroup' })
@@ -27,5 +27,4 @@ export class CreateUserDto {
   @ApiPropertyOptional()
   @IsOptional()
   isActive?: boolean;
-
 }

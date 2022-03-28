@@ -17,7 +17,6 @@ export class Step {
   desc: string;
 
   @ApiProperty({ type: () => Meal })
-  @ManyToOne(() => Meal, meal => meal.steps, { onDelete: "CASCADE" })
+  @ManyToOne(() => Meal, (meal) => meal.steps, { onDelete: 'CASCADE' })
   meal: Meal;
-
 }

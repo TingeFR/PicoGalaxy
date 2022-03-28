@@ -1,11 +1,29 @@
-import { Body, Logger, NotFoundException, Post, Put, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Logger,
+  NotFoundException,
+  Post,
+  Put,
+  Query,
+  Req,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Controller, Delete, Get, Param } from '@nestjs/common';
-import { ApiBearerAuth, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUsersDto } from './dto/get-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserMapper } from './dto/user.mapper';
+import { UserCreator } from './dto/user.creator';
 import { UserUpdater } from './dto/user.updater';
 import { User } from './entity/user.entity';
 import { UsersService } from './users.service';
@@ -13,13 +31,12 @@ import { UsersService } from './users.service';
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-
   private readonly logger: Logger;
-  
+
   constructor(
     private readonly usersService: UsersService,
-    private readonly userMapper: UserMapper,
-    private readonly userUpdater: UserUpdater
+    private readonly userCreator: UserCreator,
+    private readonly userUpdater: UserUpdater,
   ) {
     this.logger = new Logger(UsersController.name);
   }
@@ -33,12 +50,9 @@ export class UsersController {
     description: 'User list',
     type: GetUsersDto,
   })
-  async findAll(
-    @Req() r,
-    @Query() q
-  ): Promise<GetUsersDto> {
+  async findAll(@Req() r, @Query() q): Promise<GetUsersDto> {
     const users = await this.usersService.findAll(r.user);
-    return { users }
+    return { users };
   }
 
   //GET /users/id/{id}
@@ -113,8 +127,8 @@ export class UsersController {
     )
     user: CreateUserDto,
   ) {
-    const newUser = await this.userMapper.map(r.user, user)
-    return this.usersService.create(r.user, newUser)
+    const newUser = await this.userCreator.map(r.user, user);
+    return this.usersService.create(r.user, newUser);
   }
 
   //PUT /users/{id}
@@ -136,12 +150,12 @@ export class UsersController {
     @Body(
       new ValidationPipe({
         transform: true,
-        whitelist: true
+        whitelist: true,
       }),
     )
     user: UpdateUserDto,
   ) {
-    const updatedUser = await this.userUpdater.map(r.user, id, user)
+    const updatedUser = await this.userUpdater.map(r.user, id, user);
     return this.usersService.update(r.user, updatedUser);
   }
 
@@ -160,12 +174,11 @@ export class UsersController {
     )
     id: string,
   ) {
-    const user = await this.usersService.findById(r.user, id)
+    const user = await this.usersService.findById(r.user, id);
     if (user) {
       return await this.usersService.remove(r.user, id);
     }
     Logger.error(`Unknown user id: ${id}`);
     throw new NotFoundException('User not found');
   }
-
 }

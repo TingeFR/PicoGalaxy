@@ -1,19 +1,41 @@
-import { Body, Controller, Delete, Get, Logger, NotFoundException, Param, Post, Put, Query, Req, UseGuards, ValidationPipe } from '@nestjs/common';
-import { ApiBearerAuth, ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { GetMealsDto } from './dto/get-meals.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
 import { MealsService } from './meals.service';
-import { MealMapper } from './dto/meal.mapper';
+import { MealCreator } from './dto/meal.creator';
 import { MealUpdater } from './dto/meal.updater';
 import { Meal } from './entity/meal.entity';
 import { GetIngredientsDto } from './dto/get-ingredients.dto';
 import { Ingredient } from './entity/ingredient.entity';
 import { CreateIngredientDto } from './dto/create-ingredient.dto';
-import { IngredientMapper } from './dto/ingredient.mapper';
+import { IngredientCreator } from './dto/ingredient.creator';
 import { IngredientUpdater } from './dto/ingredient.updater';
-import { StepMapper } from './dto/step.mapper';
+import { StepCreator } from './dto/step.creator';
 import { StepUpdater } from './dto/step.updater';
 import { UpdateIngredientDto } from './dto/update-ingredient.dto';
 import { GetStepsDto } from './dto/get-steps.dto';
@@ -24,16 +46,15 @@ import { UpdateStepDto } from './dto/update-step.dto';
 @ApiTags('meals')
 @Controller('meals')
 export class MealsController {
-
   private readonly logger: Logger;
 
   constructor(
     private readonly mealsService: MealsService,
-    private readonly mealMapper: MealMapper,
+    private readonly mealCreator: MealCreator,
     private readonly mealUpdater: MealUpdater,
-    private readonly ingredientMapper: IngredientMapper,
+    private readonly ingredientCreator: IngredientCreator,
     private readonly ingredientUpdater: IngredientUpdater,
-    private readonly stepMapper: StepMapper,
+    private readonly stepCreator: StepCreator,
     private readonly stepUpdater: StepUpdater,
   ) {
     this.logger = new Logger(MealsController.name);
@@ -48,12 +69,9 @@ export class MealsController {
     description: 'Meal list',
     type: GetMealsDto,
   })
-  async findAll(
-    @Req() r,
-    @Query() q
-  ): Promise<GetMealsDto> {
+  async findAll(@Req() r, @Query() q): Promise<GetMealsDto> {
     const meals = await this.mealsService.findAll(r.user);
-    return { meals }
+    return { meals };
   }
 
   //GET /meals/{id}
@@ -100,7 +118,7 @@ export class MealsController {
     )
     meal: CreateMealDto,
   ) {
-    const newMeal = await this.mealMapper.map(r.user, meal);
+    const newMeal = await this.mealCreator.map(r.user, meal);
     return this.mealsService.create(r.user, newMeal);
   }
 
@@ -123,12 +141,12 @@ export class MealsController {
     @Body(
       new ValidationPipe({
         transform: true,
-        whitelist: true
+        whitelist: true,
       }),
     )
     meal: UpdateMealDto,
   ) {
-    const updatedMeal = await this.mealUpdater.map(r.user, id, meal)
+    const updatedMeal = await this.mealUpdater.map(r.user, id, meal);
     return this.mealsService.update(r.user, updatedMeal);
   }
 
@@ -147,7 +165,7 @@ export class MealsController {
     )
     id: string,
   ) {
-    const meal = await this.mealsService.findById(r.user, id)
+    const meal = await this.mealsService.findById(r.user, id);
     if (meal) {
       return await this.mealsService.remove(r.user, id);
     }
@@ -164,12 +182,9 @@ export class MealsController {
     description: 'Ingredient list',
     type: GetIngredientsDto,
   })
-  async findAllIngredients(
-    @Req() r,
-    @Query() q
-  ): Promise<GetIngredientsDto> {
+  async findAllIngredients(@Req() r, @Query() q): Promise<GetIngredientsDto> {
     const ingredients = await this.mealsService.findAllIngredients(r.user);
-    return { ingredients }
+    return { ingredients };
   }
 
   //GET /meals/ingredients/id/{id}
@@ -216,7 +231,7 @@ export class MealsController {
     )
     ingredient: CreateIngredientDto,
   ) {
-    const newIngredient = await this.ingredientMapper.map(r.user, ingredient);
+    const newIngredient = await this.ingredientCreator.map(r.user, ingredient);
     return this.mealsService.createIngredient(r.user, newIngredient);
   }
 
@@ -239,12 +254,16 @@ export class MealsController {
     @Body(
       new ValidationPipe({
         transform: true,
-        whitelist: true
+        whitelist: true,
       }),
     )
     ingredient: UpdateIngredientDto,
   ) {
-    const updatedIngredient = await this.ingredientUpdater.map(r.user, id, ingredient)
+    const updatedIngredient = await this.ingredientUpdater.map(
+      r.user,
+      id,
+      ingredient,
+    );
     return this.mealsService.updateIngredient(r.user, updatedIngredient);
   }
 
@@ -263,7 +282,7 @@ export class MealsController {
     )
     id: string,
   ) {
-    const ingredient = await this.mealsService.findIngredientById(r.user, id)
+    const ingredient = await this.mealsService.findIngredientById(r.user, id);
     if (ingredient) {
       return await this.mealsService.removeIngredient(r.user, id);
     }
@@ -280,12 +299,9 @@ export class MealsController {
     description: 'Step list',
     type: GetStepsDto,
   })
-  async findAllSteps(
-    @Req() r,
-    @Query() q
-  ): Promise<GetStepsDto> {
+  async findAllSteps(@Req() r, @Query() q): Promise<GetStepsDto> {
     const steps = await this.mealsService.findAllSteps(r.user);
-    return { steps }
+    return { steps };
   }
 
   //GET /meals/steps/id/{id}
@@ -332,7 +348,7 @@ export class MealsController {
     )
     step: CreateStepDto,
   ) {
-    const newStep = await this.stepMapper.map(r.user, step);
+    const newStep = await this.stepCreator.map(r.user, step);
     return this.mealsService.createStep(r.user, newStep);
   }
 
@@ -355,12 +371,12 @@ export class MealsController {
     @Body(
       new ValidationPipe({
         transform: true,
-        whitelist: true
+        whitelist: true,
       }),
     )
     step: UpdateStepDto,
   ) {
-    const updatedStep = await this.stepUpdater.map(r.user, id, step)
+    const updatedStep = await this.stepUpdater.map(r.user, id, step);
     return this.mealsService.updateStep(r.user, updatedStep);
   }
 
@@ -379,12 +395,11 @@ export class MealsController {
     )
     id: string,
   ) {
-    const step = await this.mealsService.findStepById(r.user, id)
+    const step = await this.mealsService.findStepById(r.user, id);
     if (step) {
       return await this.mealsService.removeStep(r.user, id);
     }
     Logger.error(`Unknown step id: ${id}`);
     throw new NotFoundException('Step not found');
   }
-
 }

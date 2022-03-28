@@ -3,6 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json');
 
 async function bootstrap() {
@@ -31,7 +32,7 @@ async function bootstrap() {
     .setDescription('API de la vie quotidienne')
     .setVersion(version)
     .addBearerAuth()
-    .addServer(process.env.NODE_ENV === 'production' ? '/api' : "")
+    .addServer(process.env.NODE_ENV === 'production' ? '/api' : '')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

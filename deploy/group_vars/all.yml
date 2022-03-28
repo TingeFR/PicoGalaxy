@@ -7,6 +7,7 @@ build_image: "picogalaxy-api"
 build_version: "{{ lookup('env','BUILD_VERSION') }}"
 gitlab_token: "{{ lookup('env','GITLAB_TOKEN') }}"
 notion_token: "{{ lookup('env','NOTION_TOKEN') }}"
+jwt_secret: "{{ lookup('env','JWT_SECRET') }}"
 aws_access_key_id: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
 aws_secret_access_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
 aws_region: eu-west-3

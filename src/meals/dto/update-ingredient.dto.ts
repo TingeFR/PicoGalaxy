@@ -1,5 +1,5 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional } from "class-validator";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdateIngredientDto {
   @ApiPropertyOptional()

@@ -9,23 +9,25 @@ import { Repository } from 'typeorm';
 export class StepUpdater {
   constructor(
     @InjectRepository(Step)
-    private stepsRepository: Repository<Step>
+    private stepsRepository: Repository<Step>,
   ) {}
 
-  async map(reqUser: User, id: string, updateStepDto: UpdateStepDto): Promise<Step> {
-
-    if(!reqUser || reqUser.group == UserGroup.USER){
+  async map(
+    reqUser: User,
+    id: string,
+    updateStepDto: UpdateStepDto,
+  ): Promise<Step> {
+    if (!reqUser || reqUser.group == UserGroup.USER) {
       return;
     }
 
     const step = await this.stepsRepository.findOne(id);
 
-    if(!step)
-    {
+    if (!step) {
       throw new NotFoundException('Step not found');
     }
 
-    Object.keys(updateStepDto).forEach(element => {
+    Object.keys(updateStepDto).forEach((element) => {
       step[element] = updateStepDto[element];
     });
 

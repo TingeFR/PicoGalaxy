@@ -7,35 +7,30 @@ import { Ingredient } from '../entity/ingredient.entity';
 import { Meal } from '../entity/meal.entity';
 
 @Injectable()
-export class IngredientMapper {
+export class IngredientCreator {
   constructor(
     @InjectRepository(Meal)
     private mealsRepository: Repository<Meal>,
   ) {}
-  async map(reqUser: User, createIngredientDto: CreateIngredientDto): Promise<Ingredient> {
-    const {
-      mealId,
-      name,
-      quantity,
-      unit
-    } = createIngredientDto;
-
-    if(!reqUser || reqUser.group == UserGroup.USER){
+  async map(
+    reqUser: User,
+    createIngredientDto: CreateIngredientDto,
+  ): Promise<Ingredient> {
+    if (!reqUser || reqUser.group == UserGroup.USER) {
       return;
     }
 
-    const meal = await this.mealsRepository.findOne(mealId);
-    if(!meal)
-    {
+    const meal = await this.mealsRepository.findOne(createIngredientDto.mealId);
+    if (!meal) {
       throw new NotFoundException('Meal not found');
     }
 
     return {
       id: null,
-      name: name,
-      quantity: quantity,
-      unit: unit,
-      meal: meal
+      name: createIngredientDto.name,
+      quantity: createIngredientDto.quantity,
+      unit: createIngredientDto.unit,
+      meal: meal,
     };
   }
 }

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
 import { AuthController } from './auth.controller';
 import { JwtGuard } from './jwt/jwt.guard';
 import { UsersModule } from 'src/users/users.module';
@@ -12,7 +11,7 @@ import { UsersModule } from 'src/users/users.module';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
     }),
   ],
   providers: [JwtStrategy, JwtGuard],

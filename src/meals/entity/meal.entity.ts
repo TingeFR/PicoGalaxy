@@ -1,16 +1,16 @@
 export enum MonthsOfYear {
-  JANUARY = "1",
-  FEBRUARY = "2",
-  MARCH = "3",
-  APRIL = "4",
-  MAY = "5",
-  JUNE = "6",
-  JULY = "7",
-  AUGUST = "8",
-  SEPTEMBER = "9",
-  OCTOBER = "10",
-  NOVEMBER = "11",
-  DECEMBER = "12",
+  JANUARY = '1',
+  FEBRUARY = '2',
+  MARCH = '3',
+  APRIL = '4',
+  MAY = '5',
+  JUNE = '6',
+  JULY = '7',
+  AUGUST = '8',
+  SEPTEMBER = '9',
+  OCTOBER = '10',
+  NOVEMBER = '11',
+  DECEMBER = '12',
 }
 
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
@@ -30,10 +30,10 @@ export class Meal {
 
   @ApiProperty({ enum: MonthsOfYear, enumName: 'MonthsOfYear', isArray: true })
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: MonthsOfYear,
     array: true,
-    default: []
+    default: [],
   })
   seasonMonths: MonthsOfYear[];
 
@@ -54,10 +54,10 @@ export class Meal {
   quentinLoves: boolean;
 
   @ApiPropertyOptional({ type: () => [Ingredient] })
-  @OneToMany(() => Ingredient, ingredient => ingredient.meal)
+  @OneToMany(() => Ingredient, (ingredient) => ingredient.meal)
   ingredients: Ingredient[];
 
   @ApiPropertyOptional({ type: () => [Step] })
-  @OneToMany(() => Step, step => step.meal)
+  @OneToMany(() => Step, (step) => step.meal)
   steps: Step[];
 }

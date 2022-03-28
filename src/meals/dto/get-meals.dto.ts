@@ -1,5 +1,5 @@
-import { ApiResponseProperty } from "@nestjs/swagger";
-import { Meal } from "../entity/meal.entity";
+import { ApiResponseProperty } from '@nestjs/swagger';
+import { Meal } from '../entity/meal.entity';
 
 export class GetMealsDto {
   @ApiResponseProperty({ type: [Meal] })

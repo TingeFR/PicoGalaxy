@@ -1,6 +1,6 @@
 export enum UserGroup {
-  USER = "user",
-  ADMIN = "admin"
+  USER = 'user',
+  ADMIN = 'admin',
 }
 
 import { ApiProperty } from '@nestjs/swagger';
@@ -14,9 +14,9 @@ export class User {
 
   @ApiProperty({ enum: UserGroup, enumName: 'UserGroup' })
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: UserGroup,
-    default: UserGroup.USER
+    default: UserGroup.USER,
   })
   group: UserGroup;
 

@@ -9,25 +9,27 @@ import { Repository } from 'typeorm';
 export class MealUpdater {
   constructor(
     @InjectRepository(Meal)
-    private mealsRepository: Repository<Meal>
+    private mealsRepository: Repository<Meal>,
   ) {}
 
-  async map(reqUser: User, id: string, updateMealDto: UpdateMealDto): Promise<Meal> {
-
+  async map(
+    reqUser: User,
+    id: string,
+    updateMealDto: UpdateMealDto,
+  ): Promise<Meal> {
     const meal = await this.mealsRepository.findOne(id);
 
-    if(!meal)
-    {
+    if (!meal) {
       throw new NotFoundException('Meal not found');
     }
 
-    Object.keys(updateMealDto).forEach(element => {
+    Object.keys(updateMealDto).forEach((element) => {
       // User
-      if(!reqUser || reqUser.group == UserGroup.USER){
+      if (!reqUser || reqUser.group == UserGroup.USER) {
         return;
       }
       // Admin
-      else{
+      else {
         meal[element] = updateMealDto[element];
       }
     });

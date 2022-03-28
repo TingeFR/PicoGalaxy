@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Connection, getConnectionOptions } from 'typeorm';
+import { Connection } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { MealsModule } from './meals/meals.module';
@@ -11,13 +11,14 @@ import { MenusModule } from './menus/menus.module';
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
         Object.assign({
-          type: "postgres",
-          host: process.env.NODE_ENV === 'production' ? "postgres" : "localhost",
+          type: 'postgres',
+          host:
+            process.env.NODE_ENV === 'production' ? 'postgres' : 'localhost',
           port: 5432,
-          username: "postgres",
-          password: "12345",
-          database: "picogalaxy",
-          entities: ["dist/**/*.entity{.ts,.js}"],
+          username: 'postgres',
+          password: '12345',
+          database: 'picogalaxy',
+          entities: ['dist/**/*.entity{.ts,.js}'],
           synchronize: true,
           autoLoadEntities: true,
         }),

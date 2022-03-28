@@ -1,6 +1,12 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional } from "class-validator";
-import { MonthsOfYear } from "../entity/meal.entity";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
+import { MonthsOfYear } from '../entity/meal.entity';
 
 export class UpdateMealDto {
   @ApiPropertyOptional()
@@ -8,7 +14,11 @@ export class UpdateMealDto {
   @IsNotEmpty()
   name?: string;
 
-  @ApiPropertyOptional({ enum: MonthsOfYear, enumName: 'MonthsOfYear', isArray: true })
+  @ApiPropertyOptional({
+    enum: MonthsOfYear,
+    enumName: 'MonthsOfYear',
+    isArray: true,
+  })
   @IsOptional()
   @IsEnum(MonthsOfYear, { each: true })
   seasonMonths?: MonthsOfYear[];

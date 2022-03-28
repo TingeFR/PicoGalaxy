@@ -9,19 +9,17 @@ import { Menu } from './entity/menu.entity';
 @Injectable()
 export class MenusService {
   constructor(
-      @InjectRepository(Menu)
-      private menusRepository: Repository<Menu>,
-      @InjectRepository(Meal)
-      private mealsRepository: Repository<Meal>,
+    @InjectRepository(Menu)
+    private menusRepository: Repository<Menu>,
+    @InjectRepository(Meal)
+    private mealsRepository: Repository<Meal>,
   ) {}
 
   async generate(reqUser: User) {
-    if(!reqUser){
-      throw new ForbiddenException("Access denied");
+    if (!reqUser) {
+      throw new ForbiddenException('Access denied');
     }
 
-    await menuMaker(this.menusRepository, this.mealsRepository)
-
+    await menuMaker(this.menusRepository, this.mealsRepository);
   }
-
 }
